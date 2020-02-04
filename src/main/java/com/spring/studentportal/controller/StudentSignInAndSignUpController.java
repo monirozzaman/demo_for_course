@@ -1,5 +1,6 @@
 package com.spring.studentportal.controller;
 
+import com.spring.studentportal.dto.request.SignInRequest;
 import com.spring.studentportal.dto.request.SignUpRequest;
 import com.spring.studentportal.services.SingInAndSignUpService;
 import org.springframework.http.HttpStatus;
@@ -21,8 +22,19 @@ public class StudentSignInAndSignUpController {
                HttpStatus.CREATED);
     }
 
+    @PutMapping("user/{id}")
+    public void updateUser(@PathVariable Long id, @RequestBody SignUpRequest signUpRequest) {
+        singInAndSignUpService.update(id,signUpRequest);
+
+    }
+
     @GetMapping("signIn")
-    public String signIn() {
-        return "ergdfg";
+    public ResponseEntity<Long> signIn(@RequestBody SignInRequest signInRequest) {
+       return singInAndSignUpService.singIn(signInRequest);
+    }
+    @DeleteMapping("user/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        singInAndSignUpService.delete(id);
+
     }
 }
