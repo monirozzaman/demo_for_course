@@ -1,16 +1,18 @@
 package com.spring.studentportal.services;
 
+import com.spring.studentportal.dto.request.CourseRequest;
 import com.spring.studentportal.dto.request.SignInRequest;
 import com.spring.studentportal.dto.request.SignUpRequest;
+import com.spring.studentportal.dto.response.StudentInfoResponse;
+import com.spring.studentportal.model.CourseModel;
 import com.spring.studentportal.model.SignUpModel;
 import com.spring.studentportal.repository.StudentRepository;
-import jdk.management.resource.ResourceRequestDeniedException;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,29 +25,53 @@ public class SingInAndSignUpService {
     }
 
 
-    public String signUp(SignUpRequest signUpRequest){
+    public String signUp(SignUpRequest signUpRequest) {
+
+        List<CourseModel> courseRequests = new ArrayList<>();
+        for (CourseRequest courseRequest1 : signUpRequest.getCourseRequests()) {
+            CourseModel courseModel = new CourseModel();
+            courseModel.setSubject(courseRequest1.getSubject());
+            courseRequests.add(courseModel);
+
+        }
 
         SignUpModel signUpModel = new SignUpModel();
+
         signUpModel.setStudentId(signUpRequest.getStudentId());
         signUpModel.setName(signUpRequest.getStudentName());
         signUpModel.setDept(signUpRequest.getStudentDept());
         signUpModel.setPassword(signUpRequest.getStudentPass());
+        signUpModel.setCourseModels(courseRequests);
 
         studentRepository.save(signUpModel);
         return signUpRequest.getStudentId();
     }
 
-    public ResponseEntity<Long> singIn(SignInRequest signInRequest){
+    public StudentInfoResponse getStudentBy(Long id) {
 
-       List<SignUpModel> getStudentDetails = studentRepository.findAll();
-       for(SignUpModel signUpModel: getStudentDetails)
-       {
-           if(signUpModel.getStudentId().equals(signInRequest.getVarsityId())
-                   && signUpModel.getPassword().equals(signInRequest.getPassword())) {
-               return new ResponseEntity(signUpModel.getId(), HttpStatus.OK);
-           }
+        Optional<SignUpModel> signUpModelOptional = studentRepository.findById(id);
 
-       }
+        StudentInfoResponse studentInfoResponses = new StudentInfoResponse();
+
+        SignUpModel signUpModel = signUpModelOptional.get();
+        studentInfoResponses.setName(signUpModel.getName());
+        studentInfoResponses.setDept(signUpModel.getDept());
+        studentInfoResponses.setStudentId(signUpModel.getStudentId());
+
+
+        return studentInfoResponses;
+    }
+
+    public ResponseEntity<Long> singIn(SignInRequest signInRequest) {
+
+        List<SignUpModel> getStudentDetails = studentRepository.findAll();
+        for (SignUpModel signUpModel : getStudentDetails) {
+            if (signUpModel.getStudentId().equals(signInRequest.getVarsityId())
+                    && signUpModel.getPassword().equals(signInRequest.getPassword())) {
+                return new ResponseEntity(signUpModel.getId(), HttpStatus.OK);
+            }
+
+        }
 
         return new ResponseEntity(0l, HttpStatus.FORBIDDEN);
     }
@@ -53,19 +79,18 @@ public class SingInAndSignUpService {
 
     public void update(Long id, SignUpRequest signUpRequest) {
 
-       Optional<SignUpModel> signUpModelOptional= studentRepository.findById(id);
-       if(!signUpModelOptional.isPresent())
-       {
-           throw new ResourceAccessException("Value Not found");
-       }
+        Optional<SignUpModel> signUpModelOptional = studentRepository.findById(id);
+        if (!signUpModelOptional.isPresent()) {
+            throw new ResourceAccessException("Value Not found");
+        }
 
-       SignUpModel signUpModel=signUpModelOptional.get();
-       signUpModel.setName(signUpRequest.getStudentName());
-       signUpModel.setDept(signUpRequest.getStudentDept());
-       signUpModel.setStudentId(signUpRequest.getStudentId());
-       signUpModel.setPassword(signUpRequest.getStudentPass());
+        SignUpModel signUpModel = signUpModelOptional.get();
+        signUpModel.setName(signUpRequest.getStudentName());
+        signUpModel.setDept(signUpRequest.getStudentDept());
+        signUpModel.setStudentId(signUpRequest.getStudentId());
+        signUpModel.setPassword(signUpRequest.getStudentPass());
 
-       studentRepository.save(signUpModel);
+        studentRepository.save(signUpModel);
     }
 
     public void delete(Long id) {

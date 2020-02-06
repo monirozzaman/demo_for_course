@@ -1,5 +1,7 @@
 package com.spring.studentportal.dto.request;
 
+import java.util.List;
+
 public class SignUpRequest {
 
     private String studentName;
@@ -9,6 +11,15 @@ public class SignUpRequest {
     private String studentId;
 
     private String studentPass;
+    private List<CourseRequest> courseRequests;
+
+    public List<CourseRequest> getCourseRequests() {
+        return courseRequests;
+    }
+
+    public void setCourseRequests(List<CourseRequest> courseRequests) {
+        this.courseRequests = courseRequests;
+    }
 
     public String getStudentName() {
         return studentName;
