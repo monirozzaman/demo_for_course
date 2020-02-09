@@ -4,6 +4,7 @@ import com.spring.studentportal.dto.request.CourseRequest;
 import com.spring.studentportal.dto.request.SignInRequest;
 import com.spring.studentportal.dto.request.SignUpRequest;
 import com.spring.studentportal.dto.response.StudentInfoResponse;
+import com.spring.studentportal.dto.response.StudentInfoResponseWithCourse;
 import com.spring.studentportal.model.CourseModel;
 import com.spring.studentportal.model.SignUpModel;
 import com.spring.studentportal.repository.StudentRepository;
@@ -47,19 +48,45 @@ public class SingInAndSignUpService {
         return signUpRequest.getStudentId();
     }
 
+
+    public StudentInfoResponseWithCourse getCourseBy(Long id) {
+        Optional<SignUpModel> signUpModelOptional = studentRepository.findById(id);
+        if (!signUpModelOptional.isPresent()) {
+
+        }
+
+        List<CourseRequest> courseRequestList = new ArrayList<>();
+        for (CourseModel courseModel : signUpModelOptional.get().getCourseModels()) {
+            courseRequestList.add(new CourseRequest(courseModel.getSubject()));
+        }
+
+
+        return StudentInfoResponseWithCourse.builder()
+                .name(signUpModelOptional.get().getName())
+                .dept(signUpModelOptional.get().getDept())
+                .studentId(signUpModelOptional.get().getStudentId())
+                .courseRequestList(courseRequestList)
+                .build();
+    }
+
+
     public StudentInfoResponse getStudentBy(Long id) {
 
         Optional<SignUpModel> signUpModelOptional = studentRepository.findById(id);
 
-        StudentInfoResponse studentInfoResponses = new StudentInfoResponse();
+        /*StudentInfoResponse studentInfoResponses = new StudentInfoResponse();
 
         SignUpModel signUpModel = signUpModelOptional.get();
         studentInfoResponses.setName(signUpModel.getName());
         studentInfoResponses.setDept(signUpModel.getDept());
-        studentInfoResponses.setStudentId(signUpModel.getStudentId());
+        studentInfoResponses.setStudentId(signUpModel.getStudentId());*/
 
 
-        return studentInfoResponses;
+        return StudentInfoResponse.builder()
+                .name(signUpModelOptional.get().getName())
+                .dept(signUpModelOptional.get().getDept())
+                .studentId(signUpModelOptional.get().getStudentId())
+                .build();
     }
 
     public ResponseEntity<Long> singIn(SignInRequest signInRequest) {

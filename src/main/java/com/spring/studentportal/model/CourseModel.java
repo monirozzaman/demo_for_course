@@ -1,7 +1,17 @@
 package com.spring.studentportal.model;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "STU_COURSE")
 public class CourseModel {
@@ -10,14 +20,6 @@ public class CourseModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String subject;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getSubject() {
         return subject;

@@ -1,55 +1,22 @@
 package com.spring.studentportal.dto.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.List;
 
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class SignUpRequest {
 
     private String studentName;
-
     private String studentDept;
-
     private String studentId;
-
     private String studentPass;
     private List<CourseRequest> courseRequests;
 
-    public List<CourseRequest> getCourseRequests() {
-        return courseRequests;
-    }
-
-    public void setCourseRequests(List<CourseRequest> courseRequests) {
-        this.courseRequests = courseRequests;
-    }
-
-    public String getStudentName() {
-        return studentName;
-    }
-
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
-    }
-
-    public String getStudentDept() {
-        return studentDept;
-    }
-
-    public void setStudentDept(String studentDept) {
-        this.studentDept = studentDept;
-    }
-
-    public String getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
-
-    public String getStudentPass() {
-        return studentPass;
-    }
-
-    public void setStudentPass(String studentPass) {
-        this.studentPass = studentPass;
-    }
 }

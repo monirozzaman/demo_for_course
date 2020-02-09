@@ -1,21 +1,16 @@
 package com.spring.studentportal.dto.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CourseRequest {
 
     private String subject;
 
-    public CourseRequest(String subject) {
-        this.subject = subject;
-    }
-
-    public CourseRequest() {
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
 }

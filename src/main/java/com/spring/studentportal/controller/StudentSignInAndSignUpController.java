@@ -3,6 +3,7 @@ package com.spring.studentportal.controller;
 import com.spring.studentportal.dto.request.SignInRequest;
 import com.spring.studentportal.dto.request.SignUpRequest;
 import com.spring.studentportal.dto.response.StudentInfoResponse;
+import com.spring.studentportal.dto.response.StudentInfoResponseWithCourse;
 import com.spring.studentportal.services.SingInAndSignUpService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,5 +44,10 @@ public class StudentSignInAndSignUpController {
     @GetMapping("/{id}")
     public StudentInfoResponse getStudent(@PathVariable Long id) {
         return singInAndSignUpService.getStudentBy(id);
+    }
+
+    @GetMapping("/course/{id}")
+    public StudentInfoResponseWithCourse getCourses(@PathVariable Long id) {
+        return singInAndSignUpService.getCourseBy(id);
     }
 }
