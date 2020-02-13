@@ -1,5 +1,6 @@
 package com.spring.studentportal.dto.request;
 
+import com.spring.studentportal.model.CourseModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,6 @@ public class SignUpRequest {
     private String studentDept;
     private String studentId;
     private String studentPass;
-    private List<CourseRequest> courseRequests;
+    private List<CourseModel> courseRequests;
 
 }

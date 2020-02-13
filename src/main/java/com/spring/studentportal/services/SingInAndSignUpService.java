@@ -27,7 +27,7 @@ public class SingInAndSignUpService {
 
 
     public String signUp(SignUpRequest signUpRequest) {
-
+/*
         List<CourseModel> courseRequests = new ArrayList<>();
         for (CourseRequest courseRequest1 : signUpRequest.getCourseRequests()) {
             CourseModel courseModel = new CourseModel();
@@ -44,8 +44,8 @@ public class SingInAndSignUpService {
         signUpModel.setPassword(signUpRequest.getStudentPass());
         signUpModel.setCourseModels(courseRequests);
 
-        studentRepository.save(signUpModel);
-        return signUpRequest.getStudentId();
+        studentRepository.save(signUpModel);*/
+        return "1234";
     }
 
 
@@ -86,6 +86,7 @@ public class SingInAndSignUpService {
                 .name(signUpModelOptional.get().getName())
                 .dept(signUpModelOptional.get().getDept())
                 .studentId(signUpModelOptional.get().getStudentId())
+                .courseModels(signUpModelOptional.get().getCourseModels())
                 .build();
     }
 
@@ -111,16 +112,19 @@ public class SingInAndSignUpService {
             throw new ResourceAccessException("Value Not found");
         }
 
+
         SignUpModel signUpModel = signUpModelOptional.get();
         signUpModel.setName(signUpRequest.getStudentName());
         signUpModel.setDept(signUpRequest.getStudentDept());
         signUpModel.setStudentId(signUpRequest.getStudentId());
         signUpModel.setPassword(signUpRequest.getStudentPass());
-
+        signUpModel.setCourseModels(signUpRequest.getCourseRequests());
         studentRepository.save(signUpModel);
     }
 
     public void delete(Long id) {
         studentRepository.deleteById(id);
     }
+
+
 }

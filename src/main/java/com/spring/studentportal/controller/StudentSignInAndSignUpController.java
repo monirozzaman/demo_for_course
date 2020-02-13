@@ -50,4 +50,5 @@ public class StudentSignInAndSignUpController {
     public StudentInfoResponseWithCourse getCourses(@PathVariable Long id) {
         return singInAndSignUpService.getCourseBy(id);
     }
+
 }
